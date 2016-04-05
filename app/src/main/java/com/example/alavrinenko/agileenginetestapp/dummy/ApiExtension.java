@@ -10,12 +10,6 @@ import rx.schedulers.Schedulers;
 
 public class ApiExtension {
 
-    public static Observable<Photo> withId(String photoId) {
-        return photos()
-                .filter(photo -> photo.id().equals(photoId))
-                .first();
-    }
-
     public static Observable<Photo> photos() {
         return firstPage()
                 .flatMapIterable(Page::photos);

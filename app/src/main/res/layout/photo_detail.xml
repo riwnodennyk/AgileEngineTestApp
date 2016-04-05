@@ -1,9 +1,26 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/photo_detail"
-    style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="com.example.alavrinenko.agileenginetestapp.PhotoDetailFragment" />
+    tools:context="com.example.alavrinenko.agileenginetestapp.PhotoDetailFragment">
+
+    <ImageView
+        android:id="@+id/full_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/photo_detail"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_margin="8dp"
+        android:background="@color/tranparent_black"
+        android:padding="16dp"
+        android:textColor="@android:color/white"
+        android:textIsSelectable="true"
+        tools:text="Sample text" />
+
+</FrameLayout>

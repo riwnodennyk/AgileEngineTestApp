@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.example.alavrinenko.agileenginetestapp.data.Page;
 import com.example.alavrinenko.agileenginetestapp.data.Photo;
+import com.example.alavrinenko.agileenginetestapp.data.User;
 import com.squareup.moshi.Moshi;
 
 import retrofit2.Retrofit;
@@ -37,6 +38,7 @@ public class Injectable {
         return new Moshi.Builder()
                 .add(Page.typeAdapterFactory())
                 .add(Photo.typeAdapterFactory())
+                .add(User.typeAdapterFactory())
                 .build();
     }
 }

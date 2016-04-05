@@ -1,5 +1,7 @@
 package com.example.alavrinenko.agileenginetestapp.data;
 
+import android.os.Parcelable;
+
 import com.google.auto.value.AutoValue;
 import com.squareup.moshi.Json;
 import com.squareup.moshi.JsonAdapter;
@@ -7,7 +9,7 @@ import com.squareup.moshi.JsonAdapter;
 import java.util.List;
 
 @AutoValue
-public abstract class Page {
+public abstract class Page implements Parcelable {
     @Json(name = "current_page")
     abstract int currentPage();
 

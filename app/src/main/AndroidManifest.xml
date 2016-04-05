@@ -24,7 +24,7 @@
             android:name=".PhotoDetailActivity"
             android:label="@string/title_photo_detail"
             android:parentActivityName=".PhotoListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.alavrinenko.agileenginetestapp.PhotoListActivity" />
