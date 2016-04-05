@@ -7,15 +7,17 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.example.alavrinenko.agileenginetestapp.data.Photo;
-import com.example.alavrinenko.agileenginetestapp.dummy.DummyContent;
+import com.example.alavrinenko.agileenginetestapp.dummy.ApiExtension;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -49,10 +51,12 @@ public class PhotoListActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
 
-        View recyclerView = findViewById(R.id.photo_list);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.photo_list);
         assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
-
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        setupRecyclerView(recyclerView);
+//todo implement paging
         if (findViewById(R.id.photo_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -63,7 +67,7 @@ public class PhotoListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull final RecyclerView recyclerView) {
-        DummyContent.photos()
+        ApiExtension.photos()
                 .toList()
                 .subscribe(photos -> {
                     recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(photos));
@@ -88,28 +92,27 @@ public class PhotoListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id());
-            holder.mContentView.setText(mValues.get(position).name());
+            holder.photo = mValues.get(position);
 
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(PhotoDetailFragment.ARG_ITEM_ID, holder.mItem.id());
-                        PhotoDetailFragment fragment = new PhotoDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.photo_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, PhotoDetailActivity.class);
-                        intent.putExtra(PhotoDetailFragment.ARG_ITEM_ID, holder.mItem.id());
+            Picasso.with(holder.rootView.getContext())
+                    .load(holder.photo.imageUrl())
+                    .into(holder.imageView);
 
-                        context.startActivity(intent);
-                    }
+            holder.rootView.setOnClickListener(v -> {
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putString(PhotoDetailFragment.ARG_ITEM_ID, holder.photo.id());
+                    PhotoDetailFragment fragment = new PhotoDetailFragment();
+                    fragment.setArguments(arguments);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.photo_detail_container, fragment)
+                            .commit();
+                } else {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, PhotoDetailActivity.class);
+                    intent.putExtra(PhotoDetailFragment.ARG_ITEM_ID, holder.photo.id());
+
+                    context.startActivity(intent);
                 }
             });
         }
@@ -120,21 +123,19 @@ public class PhotoListActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
-            public Photo mItem;
+            public final View rootView;
+            public final ImageView imageView;
+            public Photo photo;
 
             public ViewHolder(View view) {
                 super(view);
-                mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                rootView = view;
+                imageView = (ImageView) view.findViewById(R.id.image);
             }
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                return super.toString() + " '" + photo.name() + "'";
             }
         }
     }

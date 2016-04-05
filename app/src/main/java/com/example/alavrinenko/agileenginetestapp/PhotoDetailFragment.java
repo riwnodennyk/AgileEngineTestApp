@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.alavrinenko.agileenginetestapp.data.Photo;
-import com.example.alavrinenko.agileenginetestapp.dummy.DummyContent;
+import com.example.alavrinenko.agileenginetestapp.dummy.ApiExtension;
 
 /**
  * A fragment representing a single Photo detail screen.
@@ -46,7 +46,7 @@ public class PhotoDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             String itemId = getArguments().getString(ARG_ITEM_ID);
-            DummyContent.withId(itemId)
+            ApiExtension.withId(itemId)
                     .subscribe(photo -> {
                         mItem = photo;
 

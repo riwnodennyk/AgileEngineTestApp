@@ -8,6 +8,10 @@ import com.squareup.moshi.Json;
 @AutoValue
 public abstract class Photo {
 
+    public static AutoValue_Photo.AutoValue_PhotoJsonAdapterFactory typeAdapterFactory() {
+        return AutoValue_Photo.typeAdapterFactory();
+    }
+
     @Json(name = "id")
     public abstract String id();
 
@@ -18,7 +22,6 @@ public abstract class Photo {
     @Nullable
     public abstract String description();
 
-    public static AutoValue_Photo.AutoValue_PhotoJsonAdapterFactory typeAdapterFactory() {
-        return AutoValue_Photo.typeAdapterFactory();
-    }
+    @Json(name = "image_url")
+    public abstract String imageUrl();
 }
